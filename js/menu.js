@@ -46,7 +46,7 @@ export default class Menu{
       && y >= area.startY
       && y <= area.endY){
         window.cancelAnimationFrame(this.aniId);
-        console.log("hellow");
+        canvas.removeEventListener('touchstart',this.touchHandler);
         new Main();
       }
   }
