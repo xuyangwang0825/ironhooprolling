@@ -22,7 +22,7 @@ export default class Menu{
     this.touchHandler=this.touchEventHandler.bind(this);
     this.btnArea={
       startX : 0,
-      endX : screenWidth / 2,
+      endX : screenWidth,
       startY : screenHeight / 2,
       endY : screenHeight
     }
