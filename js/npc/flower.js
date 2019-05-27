@@ -1,11 +1,9 @@
 import Animation from '../base/animation'
-import DataBus   from '../databus'
+import DataBus from '../databus'
 
 const ENEMY_IMG_SRC = 'images/stone.png'
-const ENEMY_WIDTH   = 80
-const ENEMY_HEIGHT  = 80
-const screenWidth = window.innerWidth
-const screenHeight = window.innerHeight
+const ENEMY_WIDTH = 50
+const ENEMY_HEIGHT = 50
 
 const __ = {
   speed: Symbol('speed')
@@ -13,8 +11,8 @@ const __ = {
 
 let databus = new DataBus()
 
-function rnd(){
-  return Math.ceil(Math.random() *3)
+function rnd(start, end) {
+  return Math.floor(Math.random() * (end - start) + start)
 }
 
 export default class Enemy extends Animation {
@@ -25,10 +23,7 @@ export default class Enemy extends Animation {
   }
 
   init(speed) {
-    let ran=rnd()
-    if (ran === 1) this.x = screenWidth / 2-this.width/2;
-    else if (ran === 2) this.x = screenWidth * 1.7 / 6 - this.width / 2;
-    else if (ran === 3) this.x = screenWidth * 4.3 / 6 - this.width / 2;
+    this.x = rnd(0, window.innerWidth - ENEMY_WIDTH)
     this.y = -this.height
 
     this[__.speed] = speed
@@ -40,10 +35,10 @@ export default class Enemy extends Animation {
   initExplosionAnimation() {
     let frames = []
 
-    const EXPLO_IMG_PREFIX  = 'images/explosion'
+    const EXPLO_IMG_PREFIX = 'images/explosion'
     const EXPLO_FRAME_COUNT = 19
 
-    for ( let i = 0;i < EXPLO_FRAME_COUNT;i++ ) {
+    for (let i = 0; i < EXPLO_FRAME_COUNT; i++) {
       frames.push(EXPLO_IMG_PREFIX + (i + 1) + '.png')
     }
 
@@ -55,7 +50,7 @@ export default class Enemy extends Animation {
     this.y += this[__.speed]
 
     // 对象回收
-    if ( this.y > window.innerHeight + this.height )
+    if (this.y > window.innerHeight + this.height)
       databus.removeEnemey(this)
   }
 }

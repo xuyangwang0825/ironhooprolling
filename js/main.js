@@ -118,7 +118,6 @@ export default class Main {
             })
 
     this.player.drawToCanvas(ctx)
-
     databus.animations.forEach((ani) => {
       if ( ani.isPlaying ) {
         ani.aniRender(ctx)
@@ -146,12 +145,12 @@ export default class Main {
 
     this.bg.update()
 
-    /*databus.bullets
+    databus.bullets
            .concat(databus.enemys)
            .forEach((item) => {
               item.update()
             })
-    */
+    
     this.enemyGenerate()
 
     this.collisionDetection()
