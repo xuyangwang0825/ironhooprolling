@@ -1,9 +1,11 @@
 import Animation from '../base/animation'
 import DataBus from '../databus'
 
-const ENEMY_IMG_SRC = 'images/stone.png'
+const ENEMY_IMG_SRC = 'images/enemy.png'
 const ENEMY_WIDTH = 50
 const ENEMY_HEIGHT = 50
+const screenWidth = window.innerWidth
+const screenHeight = window.innerHeight
 
 const __ = {
   speed: Symbol('speed')
@@ -11,11 +13,11 @@ const __ = {
 
 let databus = new DataBus()
 
-function rnd(start, end) {
-  return Math.floor(Math.random() * (end - start) + start)
+function rnd() {
+  return Math.ceil(Math.random() * 3)
 }
 
-export default class Enemy extends Animation {
+export default class Flower extends Animation {
   constructor() {
     super(ENEMY_IMG_SRC, ENEMY_WIDTH, ENEMY_HEIGHT)
 
@@ -23,7 +25,10 @@ export default class Enemy extends Animation {
   }
 
   init(speed) {
-    this.x = rnd(0, window.innerWidth - ENEMY_WIDTH)
+    let ran = rnd()
+    if (ran === 1) this.x = screenWidth / 2 - this.width / 2;
+    else if (ran === 2) this.x = screenWidth * 1.7 / 6 - this.width / 2;
+    else if (ran === 3) this.x = screenWidth * 4.3 / 6 - this.width / 2;
     this.y = -this.height
 
     this[__.speed] = speed

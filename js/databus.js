@@ -1,5 +1,4 @@
 import Pool from './base/pool'
-
 let instance
 
 /**
@@ -34,8 +33,7 @@ export default class DataBus {
     let temp = this.enemys.shift()
 
     temp.visible = false
-
-    this.pool.recover('enemy', enemy)
+    this.pool.recover('enemy',enemy)
   }
 
   /**

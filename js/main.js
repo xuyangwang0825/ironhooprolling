@@ -1,5 +1,6 @@
 import Player     from './player/index'
 import Enemy      from './npc/enemy'
+import Flower     from './npc/flower'
 import BackGround from './runtime/background'
 import GameInfo   from './runtime/gameinfo'
 import Music      from './runtime/music'
@@ -49,7 +50,8 @@ export default class Main {
    */
   enemyGenerate() {
     if ( databus.frame % 30 === 0 ) {
-      let enemy = databus.pool.getItemByClass('enemy', Enemy)
+      let ran=Math.floor(Math.random()*2)
+      let enemy = ran > 0? databus.pool.getItemByClass('flower', Flower):      databus.pool.getItemByClass('enemy', Enemy)
       enemy.init(6)
       databus.enemys.push(enemy)
     }
