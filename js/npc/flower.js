@@ -1,4 +1,6 @@
+import Sprite from '../base/sprite'
 import Animation from '../base/animation'
+import AnimationBuilder from '../base/animbuilder'
 import DataBus from '../databus'
 
 const ENEMY_IMG_SRC = 'images/flower.png'
@@ -6,6 +8,7 @@ const ENEMY_WIDTH = 50
 const ENEMY_HEIGHT = 50
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
+
 
 const __ = {
   speed: Symbol('speed')
@@ -20,8 +23,11 @@ function rnd() {
 export default class Flower extends Animation {
   constructor() {
     super(ENEMY_IMG_SRC, ENEMY_WIDTH, ENEMY_HEIGHT)
-
     this.initExplosionAnimation()
+  }
+
+  ret() {
+    return 1
   }
 
   init(speed) {

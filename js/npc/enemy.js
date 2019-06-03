@@ -8,6 +8,7 @@ const ENEMY_HEIGHT = 50
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
+
 const __ = {
   speed: Symbol('speed')
 }
@@ -24,6 +25,10 @@ export default class Enemy extends Animation {
     this.initExplosionAnimation()
   }
 
+  ret(){
+    return 0
+  }
+  
   init(speed) {
     let ran=rnd()
     if (ran === 1) this.x = screenWidth / 2-this.width/2;

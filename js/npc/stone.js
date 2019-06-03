@@ -8,6 +8,7 @@ const ENEMY_HEIGHT = 120
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
+
 const __ = {
   speed: Symbol('speed')
 }
@@ -22,6 +23,10 @@ export default class Enemy extends Animation {
   constructor() {
     super(ENEMY_IMG_SRC, ENEMY_WIDTH, ENEMY_HEIGHT)
     this.initExplosionAnimation()
+  }
+
+  ret() {
+    return 2
   }
 
   init(speed) {

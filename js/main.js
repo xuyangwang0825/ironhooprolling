@@ -91,9 +91,20 @@ export default class Main {
       let enemy = databus.enemys[i]
 
       if ( this.player.isCollideWith(enemy) ) {
-        databus.gameOver = true
+        let xxx=enemy.ret()
+        if(xxx==0){
+          databus.score-=1;
+          continue;
 
-        break
+        } 
+        else if(xxx==1){
+          databus.score+=1
+          continue;
+        }
+        else if(xxx==2){
+          databus.gameOver = true
+          break
+        }
       }
     }
   }
@@ -136,11 +147,11 @@ export default class Main {
       }
     })
 
-    this.gameinfo.renderGameScore(ctx, databus.frame/50)
+    this.gameinfo.renderGameScore(ctx, databus.frame/50 + databus.score)
     
     // 游戏结束停止帧循环
     if ( databus.gameOver ) {
-      this.gameinfo.renderGameOver(ctx,databus.frame/50)
+      this.gameinfo.renderGameOver(ctx,databus.frame/50 + databus.score)
 
       if ( !this.hasEventBind ) {
         this.hasEventBind = true
