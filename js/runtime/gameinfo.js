@@ -8,6 +8,7 @@ export default class GameInfo {
   renderGameScore(ctx, score) {
     ctx.fillStyle = "#ffffff"
     ctx.font      = "20px Arial"
+
     ctx.fillText(
       Math.floor(score),
       10,
@@ -18,6 +19,7 @@ export default class GameInfo {
 
   renderGameOver(ctx, score) {
     ctx.drawImage(atlas, 0, 0, 119, 108, screenWidth / 2 - 150, screenHeight / 2 - 100, 300, 300)
+
     ctx.fillStyle = "#ffffff"
     ctx.font    = "20px Arial"
 
@@ -37,16 +39,27 @@ export default class GameInfo {
       atlas,
       120, 6, 39, 24,
       screenWidth / 2 - 60,
+      screenHeight / 2 - 100 + 135,
+      120, 40
+    )
+    ctx.drawImage(
+      atlas,
+      120, 6, 39, 24,
+      screenWidth / 2 - 60,
       screenHeight / 2 - 100 + 180,
       120, 40
     )
 
     ctx.fillText(
-      '重新开始',
+      '回到主菜单',
+      screenWidth / 2 - 40,
+      screenHeight / 2 - 100 + 160
+    )
+    ctx.fillText(
+      '再来一局',
       screenWidth / 2 - 40,
       screenHeight / 2 - 100 + 205
     )
-
     /**
      * 重新开始按钮区域
      * 方便简易判断按钮点击
@@ -56,6 +69,13 @@ export default class GameInfo {
       startY: screenHeight / 2 - 100 + 180,
       endX  : screenWidth / 2  + 50,
       endY  : screenHeight / 2 - 100 + 255
+    }
+
+    this.btnArea2 = {
+      startX: screenWidth / 2 - 40,
+      startY: screenHeight / 2 - 100 + 135,
+      endX: screenWidth / 2 + 50,
+      endY: screenHeight / 2 - 100 + 160
     }
   }
 }

@@ -2,11 +2,11 @@ import Player     from './player/index'
 import Enemy      from './npc/enemy'
 import Flower     from './npc/flower'
 import Stone      from './npc/stone'
-import Floatage   from './npc/floatage'
 import BackGround from './runtime/background'
 import GameInfo   from './runtime/gameinfo'
 import Music      from './runtime/music'
 import DataBus    from './databus'
+//import Menu       from './menu'
 
 let ctx   = canvas.getContext('2d')
 let databus = new DataBus()
@@ -117,12 +117,17 @@ export default class Main {
     let y = e.touches[0].clientY
 
     let area = this.gameinfo.btnArea
-
+    let area2 = this.gameinfo.btnArea2
     if (   x >= area.startX
         && x <= area.endX
         && y >= area.startY
         && y <= area.endY  )
       this.restart()
+    else if (x >= area2.startX
+      && x <= area2.endX
+      && y >= area2.startY
+      && y <= area2.endY)
+      new Menu()
   }
 
   /**
