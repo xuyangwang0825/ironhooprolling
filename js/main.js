@@ -1,6 +1,8 @@
 import Player     from './player/index'
 import Enemy      from './npc/enemy'
 import Flower     from './npc/flower'
+import Stone      from './npc/stone'
+import Floatage   from './npc/floatage'
 import BackGround from './runtime/background'
 import GameInfo   from './runtime/gameinfo'
 import Music      from './runtime/music'
@@ -49,14 +51,22 @@ export default class Main {
    * 帧数取模定义成生成的频率
    */
   enemyGenerate() {
-    if ( databus.frame % 30 === 0 ) {
-      let ran=Math.floor(Math.random()*2)
-      let enemy = ran > 0? databus.pool.getItemByClass('flower', Flower):      databus.pool.getItemByClass('enemy', Enemy)
+    if (databus.frame % 30 === 0) {
+      let ran = Math.floor(Math.random() * 3)
+      let enemy = ran == 0 ? databus.pool.getItemByClass('flower', Flower) : (ran == 1 ? databus.pool.getItemByClass('stone', Stone): databus.pool.getItemByClass('enemy', Enemy))
       enemy.init(6)
       databus.enemys.push(enemy)
     }
   }
-
+  floatageGenerate() {
+    if ((this.updateTimes * Constants.Floatage.SpawnRate) % Config.UpdateRate
+      < Constants.Floatage.SpawnRate
+      && databus.floatages.length < Constants.Floatage.SpawnMax) {
+      let floatage = databus.pool.getItemByClass('floatage', Floatage)
+      floatage.init(Constants.Floatage.Speed)
+      databus.floatages.push(floatage)
+    }
+  }
   // 全局碰撞检测
   collisionDetection() {
     let that = this

@@ -1,9 +1,10 @@
+import Sprite from '../base/sprite'
 import Animation from '../base/animation'
-import DataBus   from '../databus'
-
-const ENEMY_IMG_SRC = 'images/stone.png'
-const ENEMY_WIDTH   = 80
-const ENEMY_HEIGHT  = 80
+import AnimationBuilder from '../base/animbuilder'
+import DataBus from '../databus'
+const ENEMY_IMG_SRC = 'images/enemy.png'
+const ENEMY_WIDTH = 50
+const ENEMY_HEIGHT = 50
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
@@ -20,7 +21,6 @@ function rnd(){
 export default class Enemy extends Animation {
   constructor() {
     super(ENEMY_IMG_SRC, ENEMY_WIDTH, ENEMY_HEIGHT)
-
     this.initExplosionAnimation()
   }
 
@@ -29,7 +29,7 @@ export default class Enemy extends Animation {
     if (ran === 1) this.x = screenWidth / 2-this.width/2;
     else if (ran === 2) this.x = screenWidth * 1.7 / 6 - this.width / 2;
     else if (ran === 3) this.x = screenWidth * 4.3 / 6 - this.width / 2;
-    this.y = -this.height
+    this.y = -this.height+210
 
     this[__.speed] = speed
 
@@ -49,13 +49,24 @@ export default class Enemy extends Animation {
 
     this.initFrames(frames)
   }
-
   // 每一帧更新子弹位置
   update() {
     this.y += this[__.speed]
 
     // 对象回收
-    if ( this.y > window.innerHeight + this.height )
+    if (this.y > window.innerHeight + this.height)
       databus.removeEnemey(this)
+  }
+ 
+  destroy() {
+    this.visible = false
+    let explosionAnim = databus.pool.getItemByClass('animation', Animation, Enemy.frames)
+    //NOTE: 回调函数必须被重新设置，否则会有玄妙的后果..(回调到其他敌机实例去)
+    explosionAnim.onFinished = () => {  //对象回收
+      databus.removeAnimation(explosionAnim)
+      databus.removeEnemey(this)
+    }
+    explosionAnim.start()
+    this[__.explosionAnim] = explosionAnim
   }
 }

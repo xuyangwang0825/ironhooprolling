@@ -1,9 +1,10 @@
+import Sprite from '../base/sprite'
 import Animation from '../base/animation'
+import AnimationBuilder from '../base/animbuilder'
 import DataBus from '../databus'
-
-const ENEMY_IMG_SRC = 'images/flower.png'
-const ENEMY_WIDTH = 50
-const ENEMY_HEIGHT = 50
+const ENEMY_IMG_SRC = 'images/stone.png'
+const ENEMY_WIDTH = 120
+const ENEMY_HEIGHT = 120
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
@@ -17,10 +18,9 @@ function rnd() {
   return Math.ceil(Math.random() * 3)
 }
 
-export default class Flower extends Animation {
+export default class Enemy extends Animation {
   constructor() {
     super(ENEMY_IMG_SRC, ENEMY_WIDTH, ENEMY_HEIGHT)
-
     this.initExplosionAnimation()
   }
 
@@ -49,7 +49,6 @@ export default class Flower extends Animation {
 
     this.initFrames(frames)
   }
-
   // 每一帧更新子弹位置
   update() {
     this.y += this[__.speed]
@@ -58,6 +57,7 @@ export default class Flower extends Animation {
     if (this.y > window.innerHeight + this.height)
       databus.removeEnemey(this)
   }
+
   destroy() {
     this.visible = false
     let explosionAnim = databus.pool.getItemByClass('animation', Animation, Enemy.frames)
