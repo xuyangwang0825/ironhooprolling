@@ -154,3 +154,4 @@ export default class Player extends Sprite {
     databus.bullets.push(bullet)
   }
 }
+

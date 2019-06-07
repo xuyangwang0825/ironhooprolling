@@ -6,15 +6,127 @@ import BackGround from './runtime/background'
 import GameInfo   from './runtime/gameinfo'
 import Music      from './runtime/music'
 import DataBus    from './databus'
-//import Menu       from './menu'
+import Button from './base/button'
+
+const screenWidth = window.innerWidth
+const screenHeight = window.innerHeight
 
 let ctx   = canvas.getContext('2d')
 let databus = new DataBus()
 
+export default class Menu {
+  loop() {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, screenWidth, screenHeight);
+    ctx.fillStyle = "#000000";
+    ctx.font = "40px Arial";
+    ctx.fillText("一起滚铁环", screenWidth / 2 - 90, screenHeight / 2);
+    ctx.drawImage(this.img1, 350, 50, 60, 40)
+    ctx.drawImage(this.img3, screenWidth / 2 - 274 * 0.3, 400, 274 * 0.6, 117 * 0.6)
+    ctx.drawImage(this.img4, screenWidth*0.75 , screenHeight*0.8, 80, 80)
+    this.player.width = 100;
+    this.player.height = 100;
+    //this.player.x = screenWidth/2 -50;
+    this.player.y = screenHeight - 500;
+    this.player.drawToCanvas(ctx)
+    this.player.img.src = 'images/hero1.jpg'
+    this.aniId = window.requestAnimationFrame(
+      this.bindLoop,
+      canvas
+    )
+    if (this.flag == 1) {
+      ctx.fillStyle = "#ffffff"
+      ctx.font = "18px Arial"
+      ctx.fillStyle = "black";
+      ctx.globalAlpha = 0.6;
+      ctx.fillRect(0, 0, screenWidth, screenHeight);
+      ctx.globalAlpha = 1;
+      ctx.drawImage(this.img2, 0, 0, screenWidth, screenHeight);
+    }
+    else if(this.flag == 2){
+      ctx.fillStyle = "#ffffff"
+      ctx.font = "18px Arial"
+      ctx.fillStyle = "black";
+      ctx.globalAlpha = 0.6;
+      ctx.fillRect(0, 0, screenWidth, screenHeight);
+      ctx.globalAlpha = 1;
+      ctx.drawImage(this.img5, screenWidth*0.1, screenHeight*0.1, screenWidth*0.8, screenHeight*0.8);
+    }
+  }
+
+  constructor() {
+    this.flag = 0;
+    this.img1 = new Image();
+    this.img1.src = 'images/help.png'
+    this.img2 = new Image();
+    this.img2.src = 'images/puzzle-help.png'
+    this.img3 = new Image();
+    this.img3.src = 'images/start.png'
+    this.img4 = new Image();
+    this.img4.src = 'images/rank1.png'
+    this.img5 = new Image();
+    this.img5.src = 'images/rank2.png'
+
+    this.player = new Player(ctx);
+    this.bindLoop = this.loop.bind(this);
+    this.touchHandler = this.touchEventHandler.bind(this);
+    this.btnArea = {
+      startX: 0,
+      endX: screenWidth,
+      startY: screenHeight / 2,
+      endY: screenHeight
+    }
+    this.aniId = window.requestAnimationFrame(
+      this.bindLoop,
+      canvas
+    )
+    canvas.addEventListener('touchstart', this.touchHandler)
+
+  }
+
+  touchEventHandler(e) {
+    e.preventDefault()
+
+    let x = e.touches[0].clientX
+    let y = e.touches[0].clientY
+
+    let area = this.btnArea
+    if (x >= 350 && x <= 410 && y >= 50 && y <= 90 && this.flag == 0) {
+      this.flag = 1;
+    }
+    else if (x >= screenWidth / 2 - 274 * 0.3
+      && x <= screenWidth / 2 + 274 * 0.3
+      && y >= 400
+      && y <= 400 + 117 * 0.6 && this.flag == 0) {
+      window.cancelAnimationFrame(this.aniId);
+      canvas.removeEventListener('touchstart', this.touchHandler);
+      new Main()
+    }
+    else if (x >= screenWidth * 0.75
+      && x <= screenWidth * 0.75+80
+      && y >= screenHeight * 0.8
+      && y <= screenHeight * 0.8+80) {
+      this.flag = 2;
+    }
+    else if (this.flag == 1 && x >= area.startX
+      && x <= area.endX
+      && y >= area.startY
+      && y <= area.endY) {
+      this.flag = 0;
+    }
+    else if (this.flag == 2 && x >= area.startX
+      && x <= area.endX
+      && y >= area.startY
+      && y <= area.endY) {
+      this.flag = 0;
+    }
+  }
+}
+
 /**
  * 游戏主函数
  */
-export default class Main {
+class Main {
   constructor() {
     // 维护当前requestAnimationFrame的id
     this.aniId    = 0
@@ -103,7 +215,22 @@ export default class Main {
         }
         else if(xxx==2){
           databus.gameOver = true
-          break
+          wx.cloud.init({
+            traceUser: true,
+            env: 'lalala-xos91'
+          })
+          wx.cloud.callFunction({
+            // 云函数名称
+            name: 'add',
+            // 传给云函数的参数
+            data: {
+              score: Math.floor(databus.frame / 50 + databus.score)
+            },
+            success: function (res) {
+              console.log(res.result.sum) // 3
+            },
+            fail: console.error
+          })
         }
       }
     }
@@ -127,6 +254,7 @@ export default class Main {
       && x <= area2.endX
       && y >= area2.startY
       && y <= area2.endY)
+      //databus.reset()
       new Menu()
   }
 
@@ -157,7 +285,7 @@ export default class Main {
     // 游戏结束停止帧循环
     if ( databus.gameOver ) {
       this.gameinfo.renderGameOver(ctx,databus.frame/50 + databus.score)
-
+     
       if ( !this.hasEventBind ) {
         this.hasEventBind = true
         this.touchHandler = this.touchEventHandler.bind(this)
@@ -191,6 +319,7 @@ export default class Main {
 
   // 实现游戏帧循环
   loop() {
+
     if(!databus.gameOver) databus.frame++
 
     this.update()
@@ -202,3 +331,4 @@ export default class Main {
     )
   }
 }
+

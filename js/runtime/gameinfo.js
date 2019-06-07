@@ -51,7 +51,7 @@ export default class GameInfo {
     )
 
     ctx.fillText(
-      '回到主菜单',
+      '地狱难度',
       screenWidth / 2 - 40,
       screenHeight / 2 - 100 + 160
     )
@@ -77,6 +77,26 @@ export default class GameInfo {
       endX: screenWidth / 2 + 50,
       endY: screenHeight / 2 - 100 + 160
     }
+    
+  }
+  renderRankList(ctx){
+    wx.cloud.init({
+      traceUser: true,
+      env: 'lalala-xos91'
+    })
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'rank',
+      // 传给云函数的参数
+      success: function (res) {
+        console.log(res.result.sum) // 3
+      },
+      fail: console.error
+    })
+    ctx.drawImage(atlas, 0, 0, 119, 108, screenWidth / 2 - 150, screenHeight / 2 - 100, 300, 300)
+    ctx.fillStyle = "#ffffff"
+    ctx.font = "20px Arial"
+
   }
 }
 
