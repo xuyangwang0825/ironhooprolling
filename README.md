@@ -2,18 +2,27 @@
 
 ## 源码目录介绍
 ```
+
+./audio                                    // 音频文件
+./images                                   // 图片文件
+./function                                 // 云函数类
+├── add 
+│   ├── add.js                             // 添加得分记录
+├── rank 
+│   ├── rank.js                            // 获取排行榜信息
 ./js
 ├── base                                   // 定义游戏开发基础类
-│   ├── animatoin.js                       // 帧动画的简易实现
+│   ├── button.js                          //按钮的基本类
 │   ├── pool.js                            // 对象池的简易实现
 │   └── sprite.js                          // 游戏基本元素精灵类
 ├── libs
 │   ├── symbol.js                          // ES6 Symbol简易兼容
 │   └── weapp-adapter.js                   // 小游戏适配器
 ├── npc
-│   └── enemy.js                           // 敌机类
-├── player
-│   ├── bullet.js                          // 子弹类
+│   ├──enemy.js                            // 草类（减分道具）
+│   ├──flower.js                           // 花类（加分道具）
+│   └──stone.js                            // 石头类
+├── player                     
 │   └── index.js                           // 玩家类
 ├── runtime
 │   ├── background.js                      // 背景类
