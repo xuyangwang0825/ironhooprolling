@@ -50,8 +50,28 @@ export default class Menu {
       ctx.globalAlpha = 0.6;
       ctx.fillRect(0, 0, screenWidth, screenHeight);
       ctx.globalAlpha = 1;
-      ctx.drawImage(this.img5, screenWidth*0.1, screenHeight*0.1, screenWidth*0.8, screenHeight*0.8);
+      this.drawRank();
+      //ctx.drawImage(this.img5, screenWidth*0.1, screenHeight*0.1, screenWidth*0.8, screenHeight*0.8);
     }
+  }
+
+  drawRank(){
+    wx.cloud.init({
+      traceUser: true,
+      env: 'lalala-xos91'
+    })
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'rank',
+      // 传给云函数的参数
+      data: {
+        //score: Math.floor(databus.frame / 50 + databus.score)
+      },
+      success: function (res) {
+        console.log(res.result.sum) // 3
+      },
+      fail: console.error
+    })
   }
 
   constructor() {
@@ -67,6 +87,7 @@ export default class Menu {
     this.img5 = new Image();
     this.img5.src = 'images/rank2.png'
 
+    this.drawRank=this.drawRank.bind(this);
     this.player = new Player(ctx);
     this.bindLoop = this.loop.bind(this);
     this.touchHandler = this.touchEventHandler.bind(this);
