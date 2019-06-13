@@ -55,23 +55,34 @@ export default class Menu {
     }
   }
 
-  drawRank(){
+  updateRank(){
+    var that=this;
     wx.cloud.init({
       traceUser: true,
       env: 'lalala-xos91'
     })
-    wx.cloud.callFunction({
-      // 云函数名称
-      name: 'rank',
-      // 传给云函数的参数
-      data: {
-        //score: Math.floor(databus.frame / 50 + databus.score)
-      },
+    const db = wx.cloud.database()
+    db.collection('score').limit(20).orderBy('score', 'desc').get({
       success: function (res) {
-        console.log(res.result.sum) // 3
-      },
-      fail: console.error
+        that.rankData=res;
+        console.log(this.rankData);
+      }
     })
+  }
+
+  drawRank(){
+    ctx.fillStyle = "#ffffff"
+    ctx.fillRect(50,50,screenWidth-100,screenHeight-100);
+    ctx.fillStyle="black";
+    ctx.font = "10px Arial"
+    var i;
+    ctx.fillText("用户id", 60, 70);
+    ctx.fillText("分数", 250, 70);
+    for(i=0;i<10;i++){
+      ctx.fillText(this.rankData.data[i].id,60,100+30*i);
+      ctx.fillText(this.rankData.data[i].score, 250, 100 + 30 * i);
+    }
+    
   }
 
   constructor() {
@@ -87,7 +98,7 @@ export default class Menu {
     this.img5 = new Image();
     this.img5.src = 'images/rank2.png'
 
-    this.drawRank=this.drawRank.bind(this);
+    this.updateRank();
     this.player = new Player(ctx);
     this.bindLoop = this.loop.bind(this);
     this.touchHandler = this.touchEventHandler.bind(this);
@@ -102,7 +113,6 @@ export default class Menu {
       canvas
     )
     canvas.addEventListener('touchstart', this.touchHandler)
-
   }
 
   touchEventHandler(e) {
