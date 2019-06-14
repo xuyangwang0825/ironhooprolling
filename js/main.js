@@ -100,11 +100,13 @@ class Main {
       if (this.player.isCollideWith(enemy)) {
         let xxx = enemy.ret()
         if (xxx == 0) {
+          enemy.visible = false
           databus.score -= 1;
           continue;
 
         }
         else if (xxx == 1) {
+          enemy.visible = false
           databus.score += 1
           continue;
         }
