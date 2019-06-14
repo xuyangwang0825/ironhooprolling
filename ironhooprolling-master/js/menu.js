@@ -16,9 +16,16 @@ export default class Menu{
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, screenWidth, screenHeight);
     ctx.fillStyle = "#000000";
-    ctx.fillText("helloword", screenWidth / 2, screenHeight / 2);
+    ctx.font = "40px Arial";
+    ctx.fillText("一起滚铁环", screenWidth / 2-90, screenHeight / 2);
     ctx.drawImage(this.img1, 350, 50, IMG_HELP_WIDTH, IMG_HELP_HEIGHT)
+    ctx.drawImage(this.img3, screenWidth/2-274*0.3, 400, 274*0.6, 117*0.6)
+    this.player.width = 100;
+    this.player.height = 100;
+    //this.player.x = screenWidth/2 -50;
+    this.player.y = screenHeight - 500;
     this.player.drawToCanvas(ctx)
+    this.player.img.src = 'images/hero1.jpg'
     this.aniId = window.requestAnimationFrame(
       this.bindLoop,
       canvas
@@ -67,16 +74,22 @@ export default class Menu{
     let y = e.touches[0].clientY
 
     let area = this.btnArea
-    if(x>=350&&x<=410&&y>=50&&y<=90){
+    if(x>=350&&x<=410&&y>=50&&y<=90&&this.flag==0){
       this.flag = 1;
     }
-    if (x >= area.startX
-      && x <= area.endX
-      && y >= area.startY
-      && y <= area.endY){
+    else if (x >= screenWidth / 2 - 274 * 0.3
+      && x <= screenWidth / 2 + 274 * 0.3 
+      && y >= 400
+      && y <= 400 + 117*0.6 &&this.flag==0){
         window.cancelAnimationFrame(this.aniId);
         canvas.removeEventListener('touchstart',this.touchHandler);
         new Main();
       }
+    else if (this.flag == 1 && x >= area.startX
+      && x <= area.endX
+      && y >= area.startY
+      && y <= area.endY){
+        this.flag = 0;
+    }
   }
 }

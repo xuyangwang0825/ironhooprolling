@@ -1,5 +1,6 @@
 {
 	"description": "项目配置文件。",
+	"cloudfunctionRoot": "functions/",
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
@@ -8,11 +9,12 @@
 		"newFeature": true
 	},
 	"compileType": "game",
-	"libVersion": "1.9.94",
+	"libVersion": "2.7.1",
 	"appid": "wx6d50d015ceacb97b",
 	"projectname": "%E6%BB%9A%E9%93%81%E7%8E%AF",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
 	"condition": {
 		"search": {
 			"current": -1,
