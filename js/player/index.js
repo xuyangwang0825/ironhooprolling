@@ -21,7 +21,7 @@ export default class Player extends Sprite {
     this.y = screenHeight - this.height - 30
     this.tt_initEvent();
 
-    // 用于在手指移动的时候标识手指是否已经在飞机上了
+    // 用于在手指移动的时候标识手指是否已经在人物上了
     this.touched = false
 
     this.bullets = []
@@ -63,7 +63,7 @@ export default class Player extends Sprite {
   }
   /**
    * 玩家响应手指的触摸事件
-   * 改变战机的位置
+   * 改变人物的位置
    */
   tt_initEvent() {
     var px;
