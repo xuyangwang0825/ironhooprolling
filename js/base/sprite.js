@@ -4,9 +4,8 @@
 export default class Sprite {
   constructor(imgSrc1 = '', width=  0, height = 0, x = 0, y = 0) {
     this.img     = new Image()
-    this.img1    = new Image()
+    
     this.img.src = imgSrc1
-    this.img1.src = 'images/hutong1.png'
 
     this.width  = width
     this.height = height

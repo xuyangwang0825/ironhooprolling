@@ -14,9 +14,9 @@ const BG_HEIGHT    = 1233
 export default class BackGround extends Sprite {
   constructor(ctx) {
     super(BG_IMG_SRC, BG_WIDTH, BG_HEIGHT)
-
+    this.img1 = new Image()
+    this.img1.src = 'images/hutong1.png'
     this.top = 0
-
     this.render(ctx)
   }
   update() {

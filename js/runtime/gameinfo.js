@@ -51,7 +51,7 @@ export default class GameInfo {
     )
 
     ctx.fillText(
-      '地狱难度',
+      '回到主页',
       screenWidth / 2 - 40,
       screenHeight / 2 - 100 + 160
     )

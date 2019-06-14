@@ -238,14 +238,15 @@ export default class Menu {
     ctx.fillRect(0, 0, screenWidth, screenHeight);
     ctx.fillStyle = "#000000";
     ctx.font = "40px Arial";
-    ctx.fillText("一起滚铁环", screenWidth / 2 - 90, screenHeight / 2);
-    ctx.drawImage(this.img1, 350, 50, 60, 40)
-    ctx.drawImage(this.img3, screenWidth / 2 - 274 * 0.3, 400, 274 * 0.6, 117 * 0.6)
+    ctx.drawImage(this.img5, screenWidth * 0.05, -10, screenWidth * 0.9, screenWidth * 0.9)
+    ctx.fillText("一起滚铁环", screenWidth / 2 - 90, screenHeight / 2+45);
+    ctx.drawImage(this.img1, screenWidth*0.9-30, 50, 60, 40)
+    ctx.drawImage(this.img3, screenWidth / 2 - 274 * 0.3, screenHeight / 2+80, 274 * 0.6, 117 * 0.6)
     ctx.drawImage(this.img4, screenWidth*0.75 , screenHeight*0.8, 80, 80)
     this.player.width = 100;
     this.player.height = 100;
     //this.player.x = screenWidth/2 -50;
-    this.player.y = screenHeight - 500;
+    this.player.y = screenHeight/2-100;
     this.player.drawToCanvas(ctx)
     this.player.img.src = 'images/hero1.jpg'
     this.aniId = window.requestAnimationFrame(
@@ -256,7 +257,7 @@ export default class Menu {
       ctx.fillStyle = "#ffffff"
       ctx.font = "18px Arial"
       ctx.fillStyle = "black";
-      ctx.globalAlpha = 0.6;
+      ctx.globalAlpha = 0.9;
       ctx.fillRect(0, 0, screenWidth, screenHeight);
       ctx.globalAlpha = 1;
       ctx.drawImage(this.img2, 0, 0, screenWidth, screenHeight);
@@ -288,20 +289,22 @@ export default class Menu {
   }
 
   drawRank(){
-    ctx.fillStyle = "#ffffff"
+    ctx.fillStyle = "#40E0D0"
     ctx.fillRect(50,50,screenWidth-100,screenHeight-100);
-    ctx.fillStyle="black";
-    ctx.font = "10px Arial"
+    ctx.fillStyle="white";
+    ctx.font = "30px Arial"
     var i;
     var top = this.rankData.data.length > 10 ? 10 : this.rankData.data.length;
-    ctx.fillText("用户", 70, 70);
-    ctx.fillText("分数", 200, 70);
+    ctx.fillText("排行榜", 70, 90);
+    ctx.font = "20px Arial"
+    ctx.fillText("用户", 70, 130);
+    ctx.fillText("分数", 250, 130);
     for(i=0;i<top;i++){
       let image = new Image();
       image.src = this.rankData.data[i].avatarUrl;
-      ctx.fillText(this.rankData.data[i].nickName,100,100+30*i);
-      ctx.drawImage(image,60,90+30*i,17,17);
-      ctx.fillText(this.rankData.data[i].score, 200, 100 + 30 * i);
+      ctx.fillText(this.rankData.data[i].nickName,140,175+50*i);
+      ctx.drawImage(image,70,150+50*i,40,40);
+      ctx.fillText(this.rankData.data[i].score, 250, 175 + 50 * i);
     }
     
   }
@@ -310,14 +313,14 @@ export default class Menu {
     var that = this;
       let button = wx.createUserInfoButton({
         type: 'text',
-        text: '获取用户信息',
+        text: '',
         style: {
-          left: 10,
-          top: 76,
-          width: 150,
-          height: 40,
+          left: screenWidth * 0.75,
+          top: screenHeight * 0.8,
+          width: 80,
+          height: 80,
           lineHeight: 40,
-          backgroundColor: '#ff0000',
+          backgroundColor: '',
           color: '#ffffff',
           textAlign: 'center',
           fontSize: 16,
@@ -350,7 +353,7 @@ export default class Menu {
     this.img4 = new Image();
     this.img4.src = 'images/rank1.png'
     this.img5 = new Image();
-    this.img5.src = 'images/rank2.png'
+    this.img5.src = 'images/menu.png'
 
     this.access();
     this.updateRank();
@@ -377,13 +380,13 @@ export default class Menu {
     let y = e.touches[0].clientY
 
     let area = this.btnArea
-    if (x >= 350 && x <= 410 && y >= 50 && y <= 90 && this.flag == 0) {
+    if (x >= screenWidth * 0.9 - 30 && x <= screenWidth * 0.9 + 30 && y >= 50 && y <= 90 && this.flag == 0) {
       this.flag = 1;
     }
-    else if (x >= screenWidth / 2 - 274 * 0.3
+    else if (x >= screenWidth / 2 - 274 * 0.3   
       && x <= screenWidth / 2 + 274 * 0.3
-      && y >= 400
-      && y <= 400 + 117 * 0.6 && this.flag == 0) {
+      && y >= screenHeight / 2 + 80
+      && y <= screenHeight / 2 + 80 + 117 * 0.6 && this.flag == 0) {
       window.cancelAnimationFrame(this.aniId);
       canvas.removeEventListener('touchstart', this.touchHandler);
       main
