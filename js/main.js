@@ -391,10 +391,10 @@ export default class Menu {
       canvas.removeEventListener('touchstart', this.touchHandler);
       main
     }
-    else if (x >= screenWidth * 0.75
-      && x <= screenWidth * 0.75+80
-      && y >= screenHeight * 0.8
-      && y <= screenHeight * 0.8+80) {
+    else if (x >= screenWidth * 0.75-10
+      && x <= screenWidth * 0.75+90
+      && y >= screenHeight * 0.8-10
+      && y <= screenHeight * 0.8+90) {
       this.flag = 2;
     }
     else if (this.flag == 1 && x >= area.startX
