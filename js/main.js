@@ -109,6 +109,8 @@ class Main {
           continue;
         }
         else if (xxx == 2) {
+          enemy.playAnimation()
+          that.music.playExplosion()
           databus.gameOver = true
           wx.cloud.init({
             traceUser: true,
