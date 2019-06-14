@@ -13,6 +13,8 @@ const screenHeight = window.innerHeight
 
 let ctx   = canvas.getContext('2d')
 let databus = new DataBus()
+let nickName
+let avatarUrl
 
 export default class Menu {
   loop() {
@@ -62,10 +64,9 @@ export default class Menu {
       env: 'lalala-xos91'
     })
     const db = wx.cloud.database()
-    db.collection('score').limit(20).orderBy('score', 'desc').get({
+    db.collection('scoreRecord').limit(20).orderBy('score', 'desc').get({
       success: function (res) {
         that.rankData=res;
-        console.log(this.rankData);
       }
     })
   }
@@ -76,13 +77,50 @@ export default class Menu {
     ctx.fillStyle="black";
     ctx.font = "10px Arial"
     var i;
-    ctx.fillText("用户id", 60, 70);
-    ctx.fillText("分数", 250, 70);
-    for(i=0;i<10;i++){
-      ctx.fillText(this.rankData.data[i].id,60,100+30*i);
-      ctx.fillText(this.rankData.data[i].score, 250, 100 + 30 * i);
+    var top = this.rankData.data.length > 10 ? 10 : this.rankData.data.length;
+    ctx.fillText("用户", 70, 70);
+    ctx.fillText("分数", 200, 70);
+    for(i=0;i<top;i++){
+      let image = new Image();
+      image.src = this.rankData.data[i].avatarUrl;
+      ctx.fillText(this.rankData.data[i].nickName,100,100+30*i);
+      ctx.drawImage(image,60,90+30*i,17,17);
+      ctx.fillText(this.rankData.data[i].score, 200, 100 + 30 * i);
     }
     
+  }
+  access(){
+    var tmpflag=0;
+    var that = this;
+      let button = wx.createUserInfoButton({
+        type: 'text',
+        text: '获取用户信息',
+        style: {
+          left: 10,
+          top: 76,
+          width: 150,
+          height: 40,
+          lineHeight: 40,
+          backgroundColor: '#ff0000',
+          color: '#ffffff',
+          textAlign: 'center',
+          fontSize: 16,
+          borderRadius: 10
+        }
+      });
+      button.onTap(function (res) {
+        wx.getUserInfo({
+          success: function (res) {
+            let userInfo = res.userInfo;
+            nickName = userInfo.nickName;
+            avatarUrl = userInfo.avatarUrl;
+          },
+          fail: function (res) {
+            console.log(res);
+          }
+        })
+        button.hide();
+      });
   }
 
   constructor() {
@@ -98,6 +136,7 @@ export default class Menu {
     this.img5 = new Image();
     this.img5.src = 'images/rank2.png'
 
+    this.access();
     this.updateRank();
     this.player = new Player(ctx);
     this.bindLoop = this.loop.bind(this);
@@ -159,12 +198,13 @@ export default class Menu {
  */
 class Main {
   constructor() {
+    
     // 维护当前requestAnimationFrame的id
     this.aniId    = 0
 
     this.restart()
   }
-
+  
   restart() {
     databus.reset()
     canvas.removeEventListener(
@@ -255,13 +295,16 @@ class Main {
             name: 'add',
             // 传给云函数的参数
             data: {
-              score: Math.floor(databus.frame / 50 + databus.score)
+              score: Math.floor(databus.frame / 50 + databus.score),
+              nickName:nickName,
+              avatarUrl:avatarUrl
             },
             success: function (res) {
-              console.log(res.result.sum) // 3
             },
             fail: console.error
           })
+          console.log(nickName);
+          console.log(avatarUrl);
         }
       }
     }
