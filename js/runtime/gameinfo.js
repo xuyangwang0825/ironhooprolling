@@ -4,11 +4,12 @@ const screenHeight = window.innerHeight
 let atlas = new Image()
 atlas.src = 'images/Common.png'
 
+
+
 export default class GameInfo {
   renderGameScore(ctx, score) {
     ctx.fillStyle = "#ffffff"
     ctx.font      = "20px Arial"
-
     ctx.fillText(
       Math.floor(score),
       10,

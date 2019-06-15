@@ -46,11 +46,11 @@ export default class Flower extends Animation {
   initExplosionAnimation() {
     let frames = []
 
-    const EXPLO_IMG_PREFIX = 'images/explosion'
-    const EXPLO_FRAME_COUNT = 19
+    const EXPLO_IMG_PREFIX = 'images/+5'
+    const EXPLO_FRAME_COUNT = 7
 
     for (let i = 0; i < EXPLO_FRAME_COUNT; i++) {
-      frames.push(EXPLO_IMG_PREFIX + (i + 1) + '.png')
+      frames.push(EXPLO_IMG_PREFIX + '.png')
     }
 
     this.initFrames(frames)

@@ -25,7 +25,6 @@ class Main {
 
     // 维护当前requestAnimationFrame的id
     this.aniId = 0
-
     this.restart()
   }
 
@@ -77,7 +76,6 @@ class Main {
   // 全局碰撞检测
   collisionDetection() {
     let that = this
-
     databus.bullets.forEach((bullet) => {
       for (let i = 0, il = databus.enemys.length; i < il; i++) {
         let enemy = databus.enemys[i]
@@ -96,18 +94,17 @@ class Main {
 
     for (let i = 0, il = databus.enemys.length; i < il; i++) {
       let enemy = databus.enemys[i]
-
       if (this.player.isCollideWith(enemy)) {
         let xxx = enemy.ret()
         if (xxx == 0) {
-          enemy.visible = false
-          databus.score -= 1;
+          enemy.playAnimation()
+          databus.score -= 5;
           continue;
 
         }
         else if (xxx == 1) {
-          enemy.visible = false
-          databus.score += 1
+          enemy.playAnimation()
+          databus.score += 5
           continue;
         }
         else if (xxx == 2) {
