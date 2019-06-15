@@ -30,6 +30,8 @@
 │   └── music.js                           // 全局音效管理器
 ├── databus.js                             // 管控游戏状态
 └── main.js                                // 游戏入口主函数
-└── menu.js								   // 游戏主菜单
+└── menu.js								                 // 游戏主菜单
+
+————document                               //瀑布开发相关文档
 
 ```
