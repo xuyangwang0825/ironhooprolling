@@ -12,7 +12,7 @@
 │   ├── rank.js                            // 获取排行榜信息
 ./js
 ├── base                                   // 定义游戏开发基础类
-│   ├── button.js                          //按钮的基本类
+│   ├── button.js                          // 按钮的基本类
 │   ├── pool.js                            // 对象池的简易实现
 │   └── sprite.js                          // 游戏基本元素精灵类
 ├── libs
