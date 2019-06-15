@@ -46,7 +46,7 @@ export default class Enemy extends Animation {
     let frames = []
 
     const EXPLO_IMG_PREFIX  = 'images/-5'
-    const EXPLO_FRAME_COUNT = 7
+    const EXPLO_FRAME_COUNT = 8
 
     for ( let i = 0;i < EXPLO_FRAME_COUNT;i++ ) {
       frames.push(EXPLO_IMG_PREFIX+ '.png')
